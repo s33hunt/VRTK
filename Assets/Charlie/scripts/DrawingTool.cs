@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.Networking;
 
 namespace Charlie.DrawingTool
 {
@@ -49,8 +49,31 @@ namespace Charlie.DrawingTool
 				buttons = GetComponentsInChildren<DrawingButton>();
 				_pen = transform.Find("Tool Controller/pen").gameObject;
 				_eraser = transform.Find("Tool Controller/eraser").gameObject;
+				StartCoroutine("GetColorsFromWeb");
 			}
 		}
+
+		IEnumerator GetColorsFromWeb()
+		{
+			using (UnityWebRequest req = UnityWebRequest.Get("http://codetestvrh.herokuapp.com/view/test"))
+			{
+				req.SetRequestHeader("Authorization", "steve");
+				yield return req.SendWebRequest();
+
+				if (req.isNetworkError || req.isHttpError)
+				{
+					print(req.error);
+				}
+				else
+				{
+					string json = req.downloadHandler.text;
+					JSONResponse res = JsonUtility.FromJson<JSONResponse>(json);
+					print(res);
+				}
+			}
+		}
+
+		
 
 		private void Update()
 		{
@@ -173,5 +196,18 @@ namespace Charlie.DrawingTool
 		{
 			_toolController.Redo();
 		}
+	}
+}
+
+class JSONResponse
+{
+	public string
+		color0,
+		color1,
+		color2;
+	
+	public override string ToString()
+	{
+		return color0 + ", " + color1 + ", " + color2;
 	}
 }

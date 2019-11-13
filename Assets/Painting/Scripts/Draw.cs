@@ -10,6 +10,7 @@ public class Draw : MonoBehaviour
     public float lineDist = 0.01f;
     public bool isDrawing = false;
 	public float lineWidth = 0.1f;
+	public Color lineColor;
 
     private GameObject _go;
     private LineRenderer _line;
