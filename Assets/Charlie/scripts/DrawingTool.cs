@@ -8,7 +8,7 @@ namespace Charlie.DrawingTool
 	public class DrawingTool : MonoBehaviour
 	{
 		public enum ToolModes { Pen, Eraser, None }
-		
+		//public Color lineHighlightColor;
 		public VRTK.Prefabs.CameraRig.TrackedAlias.TrackedAliasFacade trackedAlias;
 		public VRTK.Prefabs.CameraRig.UnityXRCameraRig.Input.UnityButtonAction
 			leftTrigger,
@@ -20,6 +20,10 @@ namespace Charlie.DrawingTool
 			toolPosRight,
 			toolPosLeft,
 			activeHand;
+		//private Color _targetLineColor;
+		private LineRenderer
+			_targetLine;
+			//_prevLineSelection;
 		private Draw _toolController;
 		private DrawingButton[] buttons;
 		private GameObject
@@ -45,7 +49,6 @@ namespace Charlie.DrawingTool
 				buttons = GetComponentsInChildren<DrawingButton>();
 				_pen = transform.Find("Tool Controller/pen").gameObject;
 				_eraser = transform.Find("Tool Controller/eraser").gameObject;
-				
 			}
 		}
 
@@ -55,6 +58,16 @@ namespace Charlie.DrawingTool
 			{
 				_toolController.transform.position = activeHand.position;
 				_toolController.transform.rotation = activeHand.rotation;
+
+				if(mode == ToolModes.Eraser)
+				{
+					_targetLine = _toolController.SelectClostsLine(activeHand.position);
+					/*if(_targetLine != null && _prevLineSelection == null)
+					{
+						_targetLineColor = _targetLine.startColor;
+
+					}*/
+				}
 			}
 		}
 
@@ -89,9 +102,10 @@ namespace Charlie.DrawingTool
 			foreach (var b in buttons)
 			{
 				//perform button action if in proximity
-				if(b.Check(hand.position))
+				if(b.InClickZone(hand.position))
 				{
 					ResetButtons();
+					b.ShowActive();
 					activeHand = hand;
 					b.ButtonAction();
 					return;//end click here because we don't want to do tool actions till next click
@@ -101,10 +115,14 @@ namespace Charlie.DrawingTool
 			//check if a hand is active
 			if(activeHand != null)
 			{
-				//handle tool mode
+				//handle tool modes
 				if(mode == ToolModes.Pen)
 				{
 					StartLine();
+				}
+				else if (mode == ToolModes.Eraser)
+				{
+					_toolController.DeleteLine(_targetLine);
 				}
 			}
 		}
@@ -139,9 +157,6 @@ namespace Charlie.DrawingTool
 				}
 			}
 		}
-
-
-
 		void StartLine()
 		{
 			_toolController.StartLine();
@@ -150,11 +165,11 @@ namespace Charlie.DrawingTool
 		{
 			_toolController.EndLine();
 		}
-		void Undo()
+		public void Undo()
 		{
 			_toolController.Undo();
 		}
-		void Redo()
+		public void Redo()
 		{
 			_toolController.Redo();
 		}

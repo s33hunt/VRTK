@@ -43,14 +43,14 @@ namespace Charlie.DrawingTool
 			}
 		}
 
-		public bool Check(Vector3 handPos)
+		public bool InClickZone(Vector3 handPos)
 		{
-			if (Vector3.Distance(handPos, transform.position) < _radius)
-			{
-				if (isToggle) { buttonActive = true; }
-				return true;
-			}
-			return false;
+			return Vector3.Distance(handPos, transform.position) < _radius;
+		}
+
+		public void ShowActive()
+		{
+			if (isToggle) { buttonActive = true; }
 		}
 
 		public virtual void ButtonAction()
