@@ -8,7 +8,7 @@ namespace Charlie.DrawingTool
 	{
 		public override void ButtonAction()
 		{
-			_parent.mode = DrawingTool.ToolModes.None;
+			_parent.ExitDrawingTool();
 		}
 	}
 }

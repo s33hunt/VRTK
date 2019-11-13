@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace Charlie.DrawingTool
 {
-	public class PenButton : DrawingButton
+	public class EraserButton : DrawingButton
 	{
 		public override void ButtonAction()
 		{
-			_parent.EnterPenMode();
+			_parent.EnterEraserMode();
 		}
 	}
 }

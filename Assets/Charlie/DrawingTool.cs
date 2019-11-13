@@ -20,8 +20,11 @@ namespace Charlie.DrawingTool
 			toolPosRight,
 			toolPosLeft,
 			activeHand;
-		private Draw _tool;
+		private Draw _toolController;
 		private DrawingButton[] buttons;
+		private GameObject
+			_pen,
+			_eraser;
 
 
 		private void Start()
@@ -38,8 +41,11 @@ namespace Charlie.DrawingTool
 				leftHand = trackedAlias.transform.Find("Aliases/LeftControllerAlias");
 				toolPosRight = rightHand.Find("controller model/tool pos");
 				toolPosLeft = leftHand.Find("controller model/tool pos");
-				_tool = GetComponentInChildren<Draw>();
+				_toolController = GetComponentInChildren<Draw>();
 				buttons = GetComponentsInChildren<DrawingButton>();
+				_pen = transform.Find("Tool Controller/pen").gameObject;
+				_eraser = transform.Find("Tool Controller/eraser").gameObject;
+				
 			}
 		}
 
@@ -47,21 +53,10 @@ namespace Charlie.DrawingTool
 		{
 			if(activeHand != null)
 			{
-				_tool.transform.position = activeHand.position;
-				_tool.transform.rotation = activeHand.rotation;
+				_toolController.transform.position = activeHand.position;
+				_toolController.transform.rotation = activeHand.rotation;
 			}
 		}
-
-		/*
-		/// <summary></summary>
-		/// <param name="hand">must equal "right" or "left"</param>
-		public void SetActiveHand(string hand)
-		{
-			if(hand == "right") { activeHand = toolPosRight; }
-			else if (hand == "left") { activeHand = toolPosLeft; }
-		}
-		*/
-
 
 		public void LeftTrigerDown()
 		{
@@ -80,6 +75,14 @@ namespace Charlie.DrawingTool
 			HandleTriggerUp();
 		}
 
+		void ResetButtons()
+		{
+			foreach(var b in buttons)
+			{
+				b.buttonActive = false;
+			}
+		}
+
 		void HandleTriggerDown(ref Transform hand)
 		{
 			//check btns
@@ -88,6 +91,7 @@ namespace Charlie.DrawingTool
 				//perform button action if in proximity
 				if(b.Check(hand.position))
 				{
+					ResetButtons();
 					activeHand = hand;
 					b.ButtonAction();
 					return;//end click here because we don't want to do tool actions till next click
@@ -105,6 +109,25 @@ namespace Charlie.DrawingTool
 			}
 		}
 
+		public void EnterPenMode()
+		{
+			mode = DrawingTool.ToolModes.Pen;
+			_pen.SetActive(true);
+			_eraser.SetActive(false);
+		}
+		public void EnterEraserMode()
+		{
+			mode = DrawingTool.ToolModes.Eraser;
+			_eraser.SetActive(true);
+			_pen.SetActive(false);
+		}
+		public void ExitDrawingTool()
+		{
+			mode = DrawingTool.ToolModes.None;
+			_pen.SetActive(false);
+			_eraser.SetActive(false);
+		}
+
 		void HandleTriggerUp()
 		{
 			if (activeHand != null)
@@ -118,21 +141,22 @@ namespace Charlie.DrawingTool
 		}
 
 
+
 		void StartLine()
 		{
-			_tool.StartLine();
+			_toolController.StartLine();
 		}
 		 void EndLine()
 		{
-			_tool.EndLine();
+			_toolController.EndLine();
 		}
 		void Undo()
 		{
-			_tool.Undo();
+			_toolController.Undo();
 		}
 		void Redo()
 		{
-			_tool.Redo();
+			_toolController.Redo();
 		}
 	}
 }

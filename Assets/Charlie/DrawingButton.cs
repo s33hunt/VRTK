@@ -22,8 +22,6 @@ namespace Charlie.DrawingTool
 		{
 			_parent = transform.parent.GetComponent<DrawingTool>();
 			_radius = GetComponent<MeshRenderer>().bounds.extents.x;
-			//_parent.leftTrigger.Activated.AddListener(OnLeftTrigger);
-			//_parent.rightTrigger.Activated.AddListener(OnRightTrigger);
 			buttonMat = GetComponent<Renderer>().material;
 		}
 		
@@ -45,12 +43,11 @@ namespace Charlie.DrawingTool
 			}
 		}
 
-		public bool Check(Vector3 toolPos)
+		public bool Check(Vector3 handPos)
 		{
-			if (Vector3.Distance(toolPos, transform.position) < _radius)
+			if (Vector3.Distance(handPos, transform.position) < _radius)
 			{
 				if (isToggle) { buttonActive = true; }
-				ButtonAction();
 				return true;
 			}
 			return false;
@@ -60,24 +57,5 @@ namespace Charlie.DrawingTool
 		{
 
 		}
-
-		/*void OnLeftTrigger(bool b)
-		{
-			if (_leftDist < _radius)
-			{
-				buttonActive = true;
-				_parent.SetActiveHand("left");
-				ButtonAction();
-			}
-		}
-		void OnRightTrigger(bool b)
-		{
-			if (_rightDist < _radius)
-			{
-				buttonActive = true;
-				_parent.SetActiveHand("right");
-				ButtonAction();
-			}
-		}*/
 	}
 }
