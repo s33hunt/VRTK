@@ -1222,7 +1222,7 @@ PrefabInstance:
     - target: {fileID: 4224264712120030610, guid: 8da9464c1262b73479eb8801ad92fbad,
         type: 3}
       propertyPath: m_Name
-      value: controller model
+      value: controller_model
       objectReference: {fileID: 0}
     - target: {fileID: 4224264712120030611, guid: 8da9464c1262b73479eb8801ad92fbad,
         type: 3}
@@ -1392,7 +1392,7 @@ PrefabInstance:
     - target: {fileID: 4224264712120030610, guid: 8da9464c1262b73479eb8801ad92fbad,
         type: 3}
       propertyPath: m_Name
-      value: controller model
+      value: controller_model
       objectReference: {fileID: 0}
     - target: {fileID: 4224264712120030611, guid: 8da9464c1262b73479eb8801ad92fbad,
         type: 3}

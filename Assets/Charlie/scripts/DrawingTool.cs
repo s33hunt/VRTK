@@ -50,8 +50,8 @@ namespace Charlie.DrawingTool
 			} else {
 				rightHand = trackedAlias.transform.Find("Aliases/RightControllerAlias");
 				leftHand = trackedAlias.transform.Find("Aliases/LeftControllerAlias");
-				toolPosRight = rightHand.Find("controller model/tool pos");
-				toolPosLeft = leftHand.Find("controller model/tool pos");
+				toolPosRight = rightHand.Find("controller_model/tool pos");
+				toolPosLeft = leftHand.Find("controller_model/tool pos");
 				_toolController = GetComponentInChildren<Draw>();
 				buttons = GetComponentsInChildren<DrawingButton>();
 				_pen = transform.Find("Tool Controller/pen").gameObject;
