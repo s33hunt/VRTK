@@ -29,12 +29,10 @@ namespace Charlie.DrawingTool
 
 		public override void ButtonAction()
 		{
-			if (_showColors)
-			{
+			if (_showColors) {
 				ShowChildren();
-			}
-			else
-			{
+				buttonActive = true;//if the color picker is opening, highlight it
+			} else {
 				HideTheChildren();
 			}
 			_showColors = !_showColors;

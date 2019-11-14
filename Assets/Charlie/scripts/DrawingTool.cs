@@ -228,14 +228,16 @@ class JSONResponse
 		color2;
 	
 	/// <summary>
-	/// This method is pretty much for humor purposes. I wanted to use the actual color names and do some reflection but that would be quite a tangent. I'm just putting this here to do SOMETHING with the json from the heroku server.
+	/// This method is pretty much for humor purposes. 
+	/// I wanted to use the actual color names and do some reflection but that would be quite a tangent. 
+	/// I'm just putting this here to do SOMETHING with the json from the heroku server.
 	/// </summary>
 	public List<Color> InterpretColors()
 	{
 		List<Color> colors = new List<Color>();
 		if (color0 == "blue") { colors.Add(Color.blue); }
 		if (color1 == "red") { colors.Add(Color.red); }
-		if (color2 == "purple") { colors.Add(new Color(1,0,1,1)); }
+		if (color2 == "purple") { colors.Add(new Color(.8f,0,.7f,1)); }
 		return colors;
 	}
 
