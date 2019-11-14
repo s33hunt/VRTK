@@ -8,7 +8,7 @@ namespace Charlie.DrawingTool
 	public class DrawingTool : MonoBehaviour
 	{
 		public enum ToolModes { Pen, Eraser, None }
-		//public Color lineHighlightColor;
+		public Color lineHighlightColor;
 		public VRTK.Prefabs.CameraRig.TrackedAlias.TrackedAliasFacade trackedAlias;
 		public VRTK.Prefabs.CameraRig.UnityXRCameraRig.Input.UnityButtonAction
 			leftTrigger,
@@ -102,12 +102,7 @@ namespace Charlie.DrawingTool
 
 				if(mode == ToolModes.Eraser)
 				{
-					_targetLine = _toolController.SelectClostsLine(activeHand.position);
-					/*if(_targetLine != null && _prevLineSelection == null)
-					{
-						_targetLineColor = _targetLine.startColor;
-
-					}*/
+					_targetLine = _toolController.SelectClostsLine(activeHand.position, lineHighlightColor);
 				}
 
 				_toolController.lineWidth = lineWidthMin + (widthSliderValue * lineWidthRange);
@@ -138,15 +133,7 @@ namespace Charlie.DrawingTool
 		{
 			HandleTriggerUp();
 		}
-
-		/*void ResetButtons()
-		{
-			foreach(var b in buttons)
-			{
-				b.buttonActive = false;
-			}
-		}*/
-
+		
 		void HandleTriggerDown(ref Transform hand)
 		{
 			//check btns

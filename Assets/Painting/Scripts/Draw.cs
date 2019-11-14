@@ -31,8 +31,6 @@ public class Draw : MonoBehaviour
             _go = Instantiate(paintPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             _line = _go.GetComponent<LineRenderer>();
 			_line.startWidth = _line.endWidth = lineWidth;
-			//_line.startColor = _line.endColor = lineColor;
-			//_line.SetColors(lineColor, lineColor);
 			_line.material.color = lineColor;
 			_lines.Add(_line);
             _co = StartCoroutine(DrawLine());
@@ -100,17 +98,27 @@ public class Draw : MonoBehaviour
             yield return null;
         }
     }
-	
-	public LineRenderer SelectClostsLine(Vector3 targetPos)
+
+	LineRenderer _selected;
+	Color _selectedPrevColor;
+
+	public LineRenderer SelectClostsLine(Vector3 targetPos, Color highlightColor)
 	{
+		if (_selected != null) {
+			_selected.material.color = _selectedPrevColor;
+		}
+
 		foreach (LineRenderer line in _lines)
 		{
 			Vector3[] positions = new Vector3[line.positionCount];
 			line.GetPositions(positions);
 			foreach (var point in positions)
 			{
-				if(Vector3.Distance(point, targetPos) < lineWidth * 2)
+				if(Vector3.Distance(point, targetPos) < 0.1f)
 				{
+					_selected = line;
+					_selectedPrevColor = _selected.material.color;
+					_selected.material.color = highlightColor;
 					return line;
 				}
 			}

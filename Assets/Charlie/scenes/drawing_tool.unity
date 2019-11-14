@@ -1922,6 +1922,26 @@ PrefabInstance:
       propertyPath: rightTrigger
       value: 
       objectReference: {fileID: 1837485330}
+    - target: {fileID: 6395843712559626162, guid: c788f31f1c85c1443a21bacc1a9aa999,
+        type: 3}
+      propertyPath: lineHighlightColor.r
+      value: 0.5660378
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395843712559626162, guid: c788f31f1c85c1443a21bacc1a9aa999,
+        type: 3}
+      propertyPath: lineHighlightColor.g
+      value: 0.5660378
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395843712559626162, guid: c788f31f1c85c1443a21bacc1a9aa999,
+        type: 3}
+      propertyPath: lineHighlightColor.b
+      value: 0.5660378
+      objectReference: {fileID: 0}
+    - target: {fileID: 6395843712559626162, guid: c788f31f1c85c1443a21bacc1a9aa999,
+        type: 3}
+      propertyPath: lineHighlightColor.a
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6395843711947872092, guid: c788f31f1c85c1443a21bacc1a9aa999,
         type: 3}
       propertyPath: m_Name
