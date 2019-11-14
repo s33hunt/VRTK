@@ -57,7 +57,7 @@ public class Draw : MonoBehaviour
     //On press, removes the last line position and stores it in a list
     public void Undo()
     {
-        if (!isDrawing && _oldLine.positionCount > 0)
+        if (_oldLine != null && !isDrawing && _oldLine.positionCount > 0)
         {
             linePositions.Add(_oldLine.GetPosition(_oldLine.positionCount - 1));
             _oldLine.positionCount = _oldLine.positionCount - 1;
@@ -66,7 +66,7 @@ public class Draw : MonoBehaviour
 
     public void Redo()
     {
-        if (!isDrawing && linePositions.Count > 0)
+        if (_oldLine != null && !isDrawing && linePositions.Count > 0)
         {
             _oldLine.positionCount = _oldLine.positionCount + 1;
             _oldLine.SetPosition(_oldLine.positionCount - 1, linePositions[linePositions.Count - 1]);
@@ -117,7 +117,8 @@ public class Draw : MonoBehaviour
 
 	public void DeleteLine(LineRenderer line)
 	{
-		if(line != null){
+		if (line != null)
+		{
 			_lines.Remove(line);
 			Destroy(line.gameObject);
 		}

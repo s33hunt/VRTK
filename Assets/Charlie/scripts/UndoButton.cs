@@ -9,7 +9,6 @@ namespace Charlie.DrawingTool
 	{
 		public override void ButtonAction()
 		{
-			print("undo");
 			_parent.Undo();
 		}
 	}
