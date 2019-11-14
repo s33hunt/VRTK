@@ -7,24 +7,24 @@ namespace Charlie.DrawingTool
 {
 	public class ColorPickerButton : DrawingButton
 	{
+		//control color buttons in this class
 		public ColorButton
 			color0,
 			color1,
 			color2;
 		private bool _showColors = true;
 
+
 		public override void OnModeChange(DrawingTool.ToolModes mode)
 		{
-			if(mode == DrawingTool.ToolModes.Pen)
-			{
+			//change this button's visibility based on tool mode
+			if(mode == DrawingTool.ToolModes.Pen) {
 				Show();
-				HideTheChildren();
-			}
-			else
-			{
+			} else {
 				Hide();
-				HideTheChildren();
 			}
+			
+			HideTheChildren();//hide the children if they are visible on mode change
 		}
 
 		public override void ButtonAction()
@@ -35,8 +35,9 @@ namespace Charlie.DrawingTool
 			} else {
 				HideTheChildren();
 			}
-			_showColors = !_showColors;
+			_showColors = !_showColors;//toggle state for next button press
 		}
+
 		void ShowChildren()
 		{
 			color0.Show();
@@ -44,6 +45,7 @@ namespace Charlie.DrawingTool
 			color2.Show();
 			_showColors = false;
 		}
+
 		void HideTheChildren()
 		{
 			color0.Hide();

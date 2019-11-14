@@ -8,6 +8,7 @@ namespace Charlie.DrawingTool
 	{
 		public override void OnModeChange(DrawingTool.ToolModes mode)
 		{
+			//highlight this button only in the correct mode
 			buttonActive = mode == DrawingTool.ToolModes.Eraser;
 		}
 

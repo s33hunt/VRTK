@@ -7,46 +7,42 @@ namespace Charlie.DrawingTool
 	public class DrawingButton : MonoBehaviour
 	{
 		public bool 
-			isToggle = true,
+			isToggle = true,//toggle buttons have the ability to assume the "active" color
 			visible = true;
 		public Color
-			normalColor = new Color(0.3f, 0.3f, 0.3f, 1),
-			hoverColor = new Color(0.4f, 0.4f, 0.8f, 1),
-			activeColor = new Color(0.6f, 0.9f, 0.6f, 1);
-		[HideInInspector] public bool
-			buttonActive = false;
+			normalColor =	new Color(0.3f, 0.3f, 0.3f, 1),
+			hoverColor =	new Color(0.4f, 0.4f, 0.8f, 1),
+			activeColor =	new Color(0.6f, 0.9f, 0.6f, 1);
+		[HideInInspector] public bool buttonActive = false;
 		protected DrawingTool _parent;
 		private float _radius;
-		private float _leftDist { get { return Vector3.Distance(_parent.toolPosLeft.position, transform.position); } }
+		private float _leftDist { get { return Vector3.Distance(_parent.toolPosLeft.position, transform.position); } }//the distance from the left controller to this button
 		private float _rightDist { get { return Vector3.Distance(_parent.toolPosRight.position, transform.position); } }
-		private Material buttonMat;
+		private Material _buttonMat;
 
-		void Start()
+
+		protected virtual void Start()
 		{
 			_parent = transform.parent.GetComponent<DrawingTool>();
-			_radius = GetComponent<MeshRenderer>().bounds.extents.x;
-			buttonMat = GetComponent<Renderer>().material;
+			_radius = GetComponent<MeshRenderer>().bounds.extents.x;//use mesh to determine spherical hover area
+			_buttonMat = GetComponent<Renderer>().material;
 			ToggleMeshesRecursive(transform, visible);
 			_parent.onModeChange += OnModeChange;
 		}
 
 		protected virtual void Update()
 		{
-			if (!visible) { return; }
+			if (!visible) { return; }//don't act on hidden buttons
 
-			//highlight if controller in range
-			if((_leftDist < _radius || _rightDist < _radius) && !buttonActive)
-			{
-				buttonMat.color = hoverColor;
+			//highlight if any controller in range
+			if((_leftDist < _radius || _rightDist < _radius) && !buttonActive) {
+				_buttonMat.color = hoverColor;
 			}
 			//set resting color...
-			else if(buttonActive && isToggle)
-			{
-				buttonMat.color = activeColor;
-			}
-			else
-			{
-				buttonMat.color = normalColor;
+			else if(buttonActive && isToggle) {
+				_buttonMat.color = activeColor;
+			} else {
+				_buttonMat.color = normalColor;
 			}
 		}
 
@@ -55,6 +51,7 @@ namespace Charlie.DrawingTool
 			ToggleMeshesRecursive(transform, true);
 			visible = true;
 		}
+
 		public void Hide()
 		{
 			ToggleMeshesRecursive(transform, false);
@@ -81,7 +78,7 @@ namespace Charlie.DrawingTool
 			if (isToggle) { buttonActive = true; }
 		}
 		
-		//virtual methods
+		//virtual methods for descendant classes
 		public virtual void OnModeChange(DrawingTool.ToolModes mode) { }
 		public virtual void ButtonAction() { }
 	}

@@ -9,12 +9,10 @@ namespace Charlie.DrawingTool
 	{
 		public override void OnModeChange(DrawingTool.ToolModes mode)
 		{
-			if (mode == DrawingTool.ToolModes.Pen)
-			{
+			//change this button's visibility based on tool mode
+			if (mode == DrawingTool.ToolModes.Pen) {
 				Show();
-			}
-			else
-			{
+			} else {
 				Hide();
 			}
 		}
