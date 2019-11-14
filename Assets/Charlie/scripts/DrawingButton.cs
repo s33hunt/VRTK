@@ -29,8 +29,8 @@ namespace Charlie.DrawingTool
 			ToggleMeshesRecursive(transform, visible);
 			_parent.onModeChange += OnModeChange;
 		}
-		
-		void Update()
+
+		protected virtual void Update()
 		{
 			if (!visible) { return; }
 

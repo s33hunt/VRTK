@@ -9,7 +9,7 @@ public class Draw : MonoBehaviour
     public GameObject paintPrefab;
     public float lineDist = 0.01f;
     public bool isDrawing = false;
-	public float lineWidth = 0.1f;
+	[HideInInspector] public float lineWidth = 0.1f;
 	public Color lineColor;
 
     private GameObject _go;

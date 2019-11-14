@@ -15,6 +15,9 @@ namespace Charlie.DrawingTool
 			rightTrigger;
 		public delegate void OnModeChange(ToolModes m);
 		public OnModeChange onModeChange;
+		public float
+			lineWidthMin = 0.01f,
+			lineWidthRange = 0.2f;
 		public ToolModes mode {
 			get {
 				return _mode;
@@ -23,6 +26,8 @@ namespace Charlie.DrawingTool
 				if (onModeChange != null) { onModeChange(value); }
 			}
 		}
+		[HideInInspector] public bool dragging = false;//<- unforseen side-effect of original design
+		[HideInInspector] public float widthSliderValue = 0;//<- this too
 		[HideInInspector] public List<Color> specialColorsFromTheInternet = new List<Color>();
 		[HideInInspector] public Transform
 			rightHand,
@@ -80,7 +85,7 @@ namespace Charlie.DrawingTool
 				{
 					string json = req.downloadHandler.text;
 					JSONResponse res = JsonUtility.FromJson<JSONResponse>(json);
-					print(res);
+					print("colors from the web: " + res);
 					specialColorsFromTheInternet = res.InterpretColors();
 				}
 			}
@@ -104,6 +109,8 @@ namespace Charlie.DrawingTool
 
 					}*/
 				}
+
+				_toolController.lineWidth = lineWidthMin + (widthSliderValue * lineWidthRange);
 			}
 		}
 
@@ -171,6 +178,19 @@ namespace Charlie.DrawingTool
 			}
 		}
 
+		void HandleTriggerUp()
+		{
+			dragging = false;
+			if (activeHand != null)
+			{
+				//handle tool mode
+				if (mode == ToolModes.Pen)
+				{
+					EndLine();
+				}
+			}
+		}
+
 		public void EnterPenMode()
 		{
 			_pen.SetActive(true);
@@ -190,17 +210,7 @@ namespace Charlie.DrawingTool
 			mode = DrawingTool.ToolModes.None;
 		}
 
-		void HandleTriggerUp()
-		{
-			if (activeHand != null)
-			{
-				//handle tool mode
-				if (mode == ToolModes.Pen)
-				{
-					EndLine();
-				}
-			}
-		}
+		
 		void StartLine()
 		{
 			_toolController.StartLine();
