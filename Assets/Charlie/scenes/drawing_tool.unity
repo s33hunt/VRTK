@@ -358,6 +358,7 @@ MonoBehaviour:
   hoverColor: {r: 0.4, g: 0.4, b: 0.8, a: 1}
   activeColor: {r: 0.6, g: 0.9, b: 0.6, a: 1}
   buttonActive: 0
+  webColorIndex: 2
 --- !u!23 &684983553
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -737,6 +738,7 @@ MonoBehaviour:
   hoverColor: {r: 0.4, g: 0.4, b: 0.8, a: 1}
   activeColor: {r: 0.6, g: 0.9, b: 0.6, a: 1}
   buttonActive: 0
+  webColorIndex: 0
 --- !u!23 &1130507589
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -839,6 +841,7 @@ MonoBehaviour:
   hoverColor: {r: 0.4, g: 0.4, b: 0.8, a: 1}
   activeColor: {r: 0.6, g: 0.9, b: 0.6, a: 1}
   buttonActive: 0
+  webColorIndex: 1
 --- !u!23 &1762175314
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1513,6 +1516,11 @@ PrefabInstance:
       propertyPath: rightTrigger
       value: 
       objectReference: {fileID: 1837485330}
+    - target: {fileID: 6395843711947872092, guid: c788f31f1c85c1443a21bacc1a9aa999,
+        type: 3}
+      propertyPath: m_Name
+      value: tip
+      objectReference: {fileID: 0}
     - target: {fileID: 578368852, guid: c788f31f1c85c1443a21bacc1a9aa999, type: 3}
       propertyPath: m_Name
       value: Pen Mode Button

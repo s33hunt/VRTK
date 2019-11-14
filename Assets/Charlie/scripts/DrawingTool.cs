@@ -107,6 +107,14 @@ namespace Charlie.DrawingTool
 			}
 		}
 
+
+		public void SetColor(Color c)
+		{
+			_toolController.lineColor = c;
+			_pen.transform.Find("tip").GetComponent<Renderer>().material.color = c;
+			mode = ToolModes.Pen; //this is a dirty hack to get the OnModeChange to trigger on the color picker and turn off the color buttons
+		}
+
 		public void LeftTrigerDown()
 		{
 			HandleTriggerDown(ref toolPosLeft);
@@ -124,13 +132,13 @@ namespace Charlie.DrawingTool
 			HandleTriggerUp();
 		}
 
-		void ResetButtons()
+		/*void ResetButtons()
 		{
 			foreach(var b in buttons)
 			{
 				b.buttonActive = false;
 			}
-		}
+		}*/
 
 		void HandleTriggerDown(ref Transform hand)
 		{
@@ -140,7 +148,7 @@ namespace Charlie.DrawingTool
 				//perform button action if in proximity
 				if(b.InClickZone(hand.position))
 				{
-					ResetButtons();
+					//ResetButtons();
 					b.ShowActive();
 					activeHand = hand;
 					b.ButtonAction();
@@ -226,8 +234,8 @@ class JSONResponse
 	{
 		List<Color> colors = new List<Color>();
 		if (color0 == "blue") { colors.Add(Color.blue); }
-		if (color0 == "red") { colors.Add(Color.red); }
-		if (color0 == "purple") { colors.Add(new Color(1,0,1,1)); }
+		if (color1 == "red") { colors.Add(Color.red); }
+		if (color2 == "purple") { colors.Add(new Color(1,0,1,1)); }
 		return colors;
 	}
 

@@ -31,6 +31,9 @@ public class Draw : MonoBehaviour
             _go = Instantiate(paintPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             _line = _go.GetComponent<LineRenderer>();
 			_line.startWidth = _line.endWidth = lineWidth;
+			//_line.startColor = _line.endColor = lineColor;
+			//_line.SetColors(lineColor, lineColor);
+			_line.material.color = lineColor;
 			_lines.Add(_line);
             _co = StartCoroutine(DrawLine());
 
