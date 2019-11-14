@@ -7,6 +7,18 @@ namespace Charlie.DrawingTool
 {
 	public class RedoButton : DrawingButton
 	{
+		public override void OnModeChange(DrawingTool.ToolModes mode)
+		{
+			if (mode == DrawingTool.ToolModes.Pen)
+			{
+				Show();
+			}
+			else
+			{
+				Hide();
+			}
+		}
+
 		public override void ButtonAction()
 		{
 			_parent.Redo();

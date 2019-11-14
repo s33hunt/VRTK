@@ -5,11 +5,16 @@ using UnityEngine;
 
 namespace Charlie.DrawingTool
 {
-	public class UndoButton : DrawingButton
+	public class ColorPickerButton : DrawingButton
 	{
+		public ColorButton
+			color0,
+			color1,
+			color2;
+
 		public override void OnModeChange(DrawingTool.ToolModes mode)
 		{
-			if (mode == DrawingTool.ToolModes.Pen)
+			if(mode == DrawingTool.ToolModes.Pen)
 			{
 				Show();
 			}
@@ -21,7 +26,9 @@ namespace Charlie.DrawingTool
 
 		public override void ButtonAction()
 		{
-			_parent.Undo();
+			color0.Hide();
+			color1.Hide(); 
+			color2.Hide();
 		}
 	}
 }

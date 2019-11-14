@@ -13,7 +13,17 @@ namespace Charlie.DrawingTool
 		public VRTK.Prefabs.CameraRig.UnityXRCameraRig.Input.UnityButtonAction
 			leftTrigger,
 			rightTrigger;
-		[HideInInspector] public ToolModes mode = ToolModes.None;
+		public delegate void OnModeChange(ToolModes m);
+		public OnModeChange onModeChange;
+		public ToolModes mode {
+			get {
+				return _mode;
+			} set {
+				_mode = value;
+				if (onModeChange != null) { onModeChange(value); }
+			}
+		}
+		[HideInInspector] public List<Color> specialColorsFromTheInternet = new List<Color>();
 		[HideInInspector] public Transform
 			rightHand,
 			leftHand,
@@ -21,6 +31,7 @@ namespace Charlie.DrawingTool
 			toolPosLeft,
 			activeHand;
 		//private Color _targetLineColor;
+		private ToolModes _mode = ToolModes.None;
 		private LineRenderer
 			_targetLine;
 			//_prevLineSelection;
@@ -50,6 +61,7 @@ namespace Charlie.DrawingTool
 				_pen = transform.Find("Tool Controller/pen").gameObject;
 				_eraser = transform.Find("Tool Controller/eraser").gameObject;
 				StartCoroutine("GetColorsFromWeb");
+				ExitDrawingTool();
 			}
 		}
 
@@ -69,6 +81,7 @@ namespace Charlie.DrawingTool
 					string json = req.downloadHandler.text;
 					JSONResponse res = JsonUtility.FromJson<JSONResponse>(json);
 					print(res);
+					specialColorsFromTheInternet = res.InterpretColors();
 				}
 			}
 		}
@@ -152,21 +165,21 @@ namespace Charlie.DrawingTool
 
 		public void EnterPenMode()
 		{
-			mode = DrawingTool.ToolModes.Pen;
 			_pen.SetActive(true);
 			_eraser.SetActive(false);
+			mode = DrawingTool.ToolModes.Pen;
 		}
 		public void EnterEraserMode()
 		{
-			mode = DrawingTool.ToolModes.Eraser;
 			_eraser.SetActive(true);
 			_pen.SetActive(false);
+			mode = DrawingTool.ToolModes.Eraser;
 		}
 		public void ExitDrawingTool()
 		{
-			mode = DrawingTool.ToolModes.None;
 			_pen.SetActive(false);
 			_eraser.SetActive(false);
+			mode = DrawingTool.ToolModes.None;
 		}
 
 		void HandleTriggerUp()
@@ -206,6 +219,18 @@ class JSONResponse
 		color1,
 		color2;
 	
+	/// <summary>
+	/// This method is pretty much for humor purposes. I wanted to use the actual color names and do some reflection but that would be quite a tangent. I'm just putting this here to do SOMETHING with the json from the heroku server.
+	/// </summary>
+	public List<Color> InterpretColors()
+	{
+		List<Color> colors = new List<Color>();
+		if (color0 == "blue") { colors.Add(Color.blue); }
+		if (color0 == "red") { colors.Add(Color.red); }
+		if (color0 == "purple") { colors.Add(new Color(1,0,1,1)); }
+		return colors;
+	}
+
 	public override string ToString()
 	{
 		return color0 + ", " + color1 + ", " + color2;
